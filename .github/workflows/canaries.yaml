@@ -1,0 +1,26 @@
+name: Canaries
+on:
+  schedule:
+    - cron:  '0 0 * * *' # Every day at midnight
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+
+  with_latest_mmtk_core:
+    name: Build with latest MMTk core
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Build
+      run: WITH_LATEST_MMTK_CORE=true ./build.sh
+
+  with_upstream_ruby:
+    name: Build with with upstream Ruby
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Build
+      run: WITH_UPSTREAM_RUBY=true ./build.sh
