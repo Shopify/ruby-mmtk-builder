@@ -13,7 +13,7 @@ git clone https://github.com/mmtk/mmtk-core/
 pushd mmtk-core
 if [ ! -v WITH_LATEST_MMTK_CORE ]
 then
-  git checkout v0.9.0
+  git checkout v0.10.0
 fi
 cargo build
 popd
