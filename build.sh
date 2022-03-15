@@ -34,7 +34,7 @@ if [ -v WITH_UPSTREAM_RUBY ]
 then
   git config --global user.email builder@example.com
   git config --global user.name Builder
-  git remote add upstream git://github.com/ruby/ruby
+  git remote add upstream https://github.com/ruby/ruby
   git fetch upstream
   git merge upstream/master
 fi
