@@ -41,7 +41,7 @@ fi
 cp ../mmtk-ruby/mmtk/target/debug/libmmtk_ruby.so ./
 sudo apt-get install -y autoconf bison
 ./autogen.sh
-./configure cppflags='-DUSE_THIRD_PARTY_HEAP -DUSE_TRANSIENT_HEAP=0' optflags='-O0' --prefix=$PWD/build --disable-install-doc
+./configure --with-mmtk-ruby --prefix=$PWD/build --disable-install-doc
 export LD_LIBRARY_PATH=$PWD
 export MMTK_PLAN=NoGC
 export THIRD_PARTY_HEAP_LIMIT=1000000000
