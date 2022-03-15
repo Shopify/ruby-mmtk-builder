@@ -9,17 +9,22 @@ sudo export RUSTUP_TOOLCHAIN=$(cat rust-toolchain) && /root/.cargo/bin/rustup to
 sudo export RUSTUP_TOOLCHAIN=$(cat rust-toolchain) && /root/.cargo/bin/rustup target add i686-unknown-linux-gnu --toolchain $RUSTUP_TOOLCHAIN
 PATH="/root/.cargo/bin:${PATH}"
 
-git clone https://github.com/mmtk/mmtk-core/
-pushd mmtk-core
-if [ ! -v WITH_LATEST_MMTK_CORE ]
+if [ -v WITH_LATEST_MMTK_CORE ]
 then
-  git checkout v0.10.0
+  git clone https://github.com/mmtk/mmtk-core
+  pushd mmtk-core
+else
+  git clone https://github.com/wks/mmtk-core
+  pushd mmtk-core
+  git checkout is_arbitrary_address_alloced
 fi
 cargo build
 popd
 
 git clone https://github.com/mmtk/mmtk-ruby
 pushd mmtk-ruby/mmtk
+sed -i 's/^mmtk =/#mmtk =/g' Cargo.toml
+cat ../../Cargo.toml.part >> Cargo.toml
 cargo build
 popd
 
