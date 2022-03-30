@@ -42,8 +42,9 @@ sudo apt-get install -y autoconf bison
 ./autogen.sh
 ./configure --with-mmtk-ruby --prefix=$PWD/build --disable-install-doc
 export LD_LIBRARY_PATH=$PWD
-export MMTK_PLAN=NoGC
-export THIRD_PARTY_HEAP_LIMIT=1000000000
+export MMTK_PLAN=MarkSweep
+export THIRD_PARTY_HEAP_LIMIT=10000000
 make miniruby -j
+export RUST_LOG=trace
 ./miniruby -e 'puts "Hello world!"'
 popd
