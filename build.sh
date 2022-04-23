@@ -7,27 +7,23 @@ source $HOME/.cargo/env
 
 if [ -v WITH_LATEST_MMTK_CORE ]
 then
-  git clone --depth=1 https://github.com/mmtk/mmtk-core
+  git clone https://github.com/mmtk/mmtk-core
 else
-  git clone --depth=1 https://github.com/mmtk/mmtk-core # https://github.com/wks/mmtk-core
-  # Currently no difference
+  git clone https://github.com/mmtk/mmtk-core # https://github.com/wks/mmtk-core
+  # git checkout -b ...
 fi
-
-# Building mmtk-core in the mmtk-core directory has no effect for mmtk-ruby.
-# When building mmtk-ruby, it will build the source of mmtk-core, too,
-# and the generated object files will be in mmtk-ruby/mmtk/target/
 
 export RUSTUP_TOOLCHAIN=nightly # $(cat rust-toolchain)
 rustup toolchain install $RUSTUP_TOOLCHAIN
 
-git clone --depth=1 https://github.com/mmtk/mmtk-ruby
+git clone https://github.com/mmtk/mmtk-ruby
 pushd mmtk-ruby/mmtk
 sed -i 's/^mmtk =/#mmtk =/g' Cargo.toml
 cat ../../Cargo.toml.part >> Cargo.toml
 cargo +nightly build --release
 popd
 
-git clone --depth=1 https://github.com/mmtk/ruby
+git clone https://github.com/mmtk/ruby
 pushd ruby
 if [ -v WITH_UPSTREAM_RUBY ]
 then
@@ -37,13 +33,18 @@ then
   git fetch upstream
   git merge upstream/master
 fi
-sudo apt-get install -y autoconf bison
+sudo apt-get install -y autoconf bison libyaml-dev
 ./autogen.sh
 ./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build --disable-install-doc
 export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=500000000
-make miniruby -j
-export RUST_LOG=info
-./miniruby -e 'puts "Hello world!"'
-make install -j
+export THIRD_PARTY_HEAP_LIMIT=100000000
+make
+make install
 popd
+
+export PATH=$PWD/ruby/build/bin:$PATH
+export MMTK_PLAN=MarkSweep
+export THIRD_PARTY_HEAP_LIMIT=100000000
+ruby --version
+
+ruby -e "puts 'Hello, World!'"
