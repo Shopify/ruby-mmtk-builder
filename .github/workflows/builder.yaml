@@ -9,8 +9,16 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Build
+  build-debug:
+    name: Build debug
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Build
+      run: WITH_DEBUG=true ./build.sh
+  build-release:
+    name: Build release
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
