@@ -20,7 +20,12 @@ git clone https://github.com/mmtk/mmtk-ruby
 pushd mmtk-ruby/mmtk
 sed -i 's/^mmtk =/#mmtk =/g' Cargo.toml
 cat ../../Cargo.toml.part >> Cargo.toml
-cargo +nightly build --release
+if [ -v WITH_DEBUG ]
+then
+  cargo +nightly build
+else
+  cargo +nightly build --release
+fi
 popd
 
 git clone https://github.com/mmtk/ruby
@@ -35,16 +40,26 @@ then
 fi
 sudo apt-get install -y autoconf bison libyaml-dev
 ./autogen.sh
-./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build --disable-install-doc
+if [ -v WITH_DEBUG ]
+then
+  ./configure cppflags=-DRUBY_DEBUG --with-mmtk-ruby=../mmtk-ruby --with-mmtk-ruby-debug --prefix=$PWD/build
+else
+  ./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build
+fi
 export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=100000000
+export THIRD_PARTY_HEAP_LIMIT=1000000000
 make
 make install
 popd
 
 export PATH=$PWD/ruby/build/bin:$PATH
 export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=100000000
+export THIRD_PARTY_HEAP_LIMIT=1000000000
+if [ -v WITH_DEBUG ]
+then
+  export RUST_LOG=info
+fi
+
 ruby --version
 
 ruby -e "puts 'Hello, World!'"

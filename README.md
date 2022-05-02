@@ -4,3 +4,5 @@ MMTk.
 `WITH_LATEST_MMTK_CORE=yes` to use latest MMTk (may not work.)
 
 `WITH_UPSTREAM_RUBY=yes` to merge with upstream Ruby (may not work.)
+
+`WITH_DEBUG=yes` to build a debug version.
