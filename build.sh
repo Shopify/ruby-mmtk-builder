@@ -50,9 +50,19 @@ export MMTK_PLAN=MarkSweep
 export THIRD_PARTY_HEAP_LIMIT=1000000000
 make
 make install
+if [ -v WITH_DEBUG ]
+then
+  RELEASE_SUFFIX=debug
+else
+  RELEASE_SUFFIX=release
+fi
+RELEASE=ruby-mmtk-linux-amd64-`date +%Y%m%d%H%M%S`-$RELEASE_SUFFIX
+cp -r build $RELEASE
+tar -zcf ../$RELEASE.tar.gz $RELEASE
 popd
 
-export PATH=$PWD/ruby/build/bin:$PATH
+tar -zxf $RELEASE.tar.gz
+export PATH=$PWD/$RELEASE/bin:$PATH
 export MMTK_PLAN=MarkSweep
 export THIRD_PARTY_HEAP_LIMIT=1000000000
 if [ -v WITH_DEBUG ]
