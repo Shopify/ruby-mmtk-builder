@@ -9,19 +9,59 @@ on:
     branches: [ main ]
 
 jobs:
+
+  tag:
+    name: Tag
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create tag
+      run: |
+        TAG=$(date +%Y%m%d%H%M%S)
+        echo $TAG > tag.txt
+    - name: Upload tag
+      uses: actions/upload-artifact@v3
+      with:
+        name: tag
+        path: tag.txt
+
   build-debug:
     name: Build debug
+    needs: [tag]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Build
       run: WITH_DEBUG=true ./build.sh
+    - name: Download tag
+      uses: actions/download-artifact@v1
+      with:
+        name: tag
+    - name: Package
+      run: TAG=`cat tag/tag.txt` WITH_DEBUG=true ./package.sh
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-build
+        path: '*.tar.gz'
+
   build-release:
     name: Build release
+    needs: [tag]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Build
       run: ./build.sh
+    - name: Download tag
+      uses: actions/download-artifact@v1
+      with:
+        name: tag
+    - name: Package
+      run: TAG=`cat tag/tag.txt` ./package.sh
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-build
+        path: '*.tar.gz'
