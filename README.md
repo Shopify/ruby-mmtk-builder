@@ -6,3 +6,5 @@ MMTk.
 `WITH_UPSTREAM_RUBY=yes` to merge with upstream Ruby (may not work.)
 
 `WITH_DEBUG=yes` to build a debug version.
+
+`TAG=mytag ./package.sh` then builds a tarball.

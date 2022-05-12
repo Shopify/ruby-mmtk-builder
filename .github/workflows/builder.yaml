@@ -9,6 +9,7 @@ on:
     branches: [ main ]
 
 jobs:
+
   build-debug:
     name: Build debug
     runs-on: ubuntu-latest
@@ -17,6 +18,9 @@ jobs:
       uses: actions/checkout@v3
     - name: Build
       run: WITH_DEBUG=true ./build.sh
+    - name: Package
+      run: TAG=unknown ./package.sh
+
   build-release:
     name: Build release
     runs-on: ubuntu-latest
@@ -25,3 +29,5 @@ jobs:
       uses: actions/checkout@v3
     - name: Build
       run: ./build.sh
+    - name: Package
+      run: TAG=unknown ./package.sh
