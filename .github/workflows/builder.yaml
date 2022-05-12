@@ -39,6 +39,11 @@ jobs:
         name: tag
     - name: Package
       run: TAG=`cat tag.txt` WITH_DEBUG=true ./package.sh
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-build
+        path: '*.tar.gz'
 
   build-release:
     name: Build release
@@ -55,3 +60,8 @@ jobs:
         name: tag
     - name: Package
       run: TAG=`cat tag.txt` ./package.sh
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-build
+        path: '*.tar.gz'
