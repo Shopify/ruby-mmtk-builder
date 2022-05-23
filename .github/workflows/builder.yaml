@@ -65,3 +65,20 @@ jobs:
       with:
         name: release-build
         path: '*.tar.gz'
+
+  github-release:
+    name: Create GitHub release
+    needs: [build-debug, build-release]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download builds
+      uses: actions/download-artifact@v3
+    - name: Display structure of downloaded files
+      run: ls -R
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          debug-build/*.tar.gz
+          release-build/*.tar.gz
+        tag_name: nightly

@@ -2,8 +2,8 @@
 
 This repository provides builds of the [Ruby](https://www.ruby-lang.org/)
 programming language, with [MMTk](https://www.mmtk.io/) as a garbage collector.
-To download a build, find a recent green build at
-https://github.com/chrisseaton/ruby-mmtk-builder/actions/workflows/builder.yaml
+To download a build, find a recent nightly release at
+https://github.com/chrisseaton/ruby-mmtk-builder/releases/tag/nightly
 and download either the debug or release artefact.
 
 You need to set a *plan* (garbage collection algorithm) and a heap size
