@@ -70,15 +70,17 @@ jobs:
     name: Create GitHub release
     needs: [build-debug, build-release]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Download builds
       uses: actions/download-artifact@v3
-    - name: Display structure of downloaded files
-      run: ls -R
     - name: Release
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        files: |
-          debug-build/*.tar.gz
-          release-build/*.tar.gz
-        tag_name: nightly
+        artifacts: "debug-build/*.tar.gz,release-build/*.tar.gz"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: nightly
+        removeArtifacts: true
+        commit: main
+        allowUpdates: true
