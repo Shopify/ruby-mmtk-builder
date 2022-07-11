@@ -9,11 +9,13 @@ if [ -v WITH_LATEST_MMTK_CORE ]
 then
   git clone https://github.com/mmtk/mmtk-core
 else
-  git clone https://github.com/mmtk/mmtk-core # https://github.com/wks/mmtk-core
-  # git checkout -b ...
+  git clone https://github.com/wks/mmtk-core
+  pushd mmtk-core
+  git checkout --track origin/ruby-friendly-tracing
+  popd
 fi
 
-export RUSTUP_TOOLCHAIN=nightly # $(cat rust-toolchain)
+export RUSTUP_TOOLCHAIN=nightly # $(cat mmtk-core/rust-toolchain)
 rustup toolchain install $RUSTUP_TOOLCHAIN
 
 git clone https://github.com/mmtk/mmtk-ruby
