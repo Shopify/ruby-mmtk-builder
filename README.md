@@ -6,12 +6,10 @@ To download a build, find a recent nightly release at
 https://github.com/chrisseaton/ruby-mmtk-builder/releases/tag/nightly
 and download either the debug or release artefact.
 
-You need to set a *plan* (garbage collection algorithm) and a heap size
-manually at the moment.
+You need to set a *plan* (garbage collection algorithm) manually at the moment.
 
 ```
 export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=1000000000
 ```
 
 ## Use as a development environment
