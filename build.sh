@@ -49,7 +49,6 @@ else
   ./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build
 fi
 export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=1000000000
 make
 make install
 popd
