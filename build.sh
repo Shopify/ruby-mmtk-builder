@@ -5,15 +5,16 @@ set -euxo pipefail
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
 source $HOME/.cargo/env
 
-if [ -v WITH_LATEST_MMTK_CORE ]
+WITH_LATEST_MMTK_CORE=yes # always using latest at the moment
+
+git clone https://github.com/mmtk/mmtk-core
+pushd mmtk-core
+if [ ! -v WITH_LATEST_MMTK_CORE ]
 then
-  git clone https://github.com/mmtk/mmtk-core
-else
-  git clone https://github.com/wks/mmtk-core
-  pushd mmtk-core
-  git checkout --track origin/ruby-friendly-tracing
-  popd
+  git remote add wks https://github.com/wks/mmtk-core
+  git checkout wks/ruby-friendly-tracing
 fi
+popd
 
 export RUSTUP_TOOLCHAIN=nightly # $(cat mmtk-core/rust-toolchain)
 rustup toolchain install $RUSTUP_TOOLCHAIN
