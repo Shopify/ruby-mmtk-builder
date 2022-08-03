@@ -16,7 +16,7 @@ then
 fi
 popd
 
-export RUSTUP_TOOLCHAIN=nightly # $(cat mmtk-core/rust-toolchain)
+export RUSTUP_TOOLCHAIN=stable # $(cat mmtk-core/rust-toolchain)
 rustup toolchain install $RUSTUP_TOOLCHAIN
 
 git clone https://github.com/mmtk/mmtk-ruby
@@ -25,9 +25,9 @@ sed -i 's/^mmtk =/#mmtk =/g' Cargo.toml
 cat ../../Cargo.toml.part >> Cargo.toml
 if [ -v WITH_DEBUG ]
 then
-  cargo +nightly build
+  cargo build
 else
-  cargo +nightly build --release
+  cargo build --release
 fi
 popd
 
