@@ -45,13 +45,13 @@ sudo apt-get install -y autoconf bison libyaml-dev
 ./autogen.sh
 if [ -v WITH_DEBUG ]
 then
-  ./configure cppflags=-DRUBY_DEBUG --with-mmtk-ruby=../mmtk-ruby --with-mmtk-ruby-debug --prefix=$PWD/build
+  CONFIGURE_FLAGS='cppflags=-DRUBY_DEBUG --with-mmtk-ruby-debug'
 else
-  ./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build
+  CONFIGURE_FLAGS=
 fi
-export MMTK_PLAN=MarkSweep
+./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build $CONFIGURE_FLAGS
 make
 make install
 popd
 
-ruby/build/bin/ruby -v
+ruby/build/bin/ruby --mmtk -v

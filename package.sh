@@ -16,6 +16,4 @@ popd
 
 tar -zxf $RELEASE.tar.gz
 
-export MMTK_PLAN=MarkSweep
-export THIRD_PARTY_HEAP_LIMIT=1000000000
-$RELEASE/bin/ruby -v
+$RELEASE/bin/ruby --mmtk -v
