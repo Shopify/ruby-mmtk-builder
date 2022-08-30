@@ -18,5 +18,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Build
       run: ./build.sh
-    - name: Bootstrap test
-      run: make -C ruby btest RUN_OPTS=--mmtk
+    - name: Bootstrap test +MMTk(NoGC)
+      run: make -C ruby btest RUN_OPTS=--mmtk-plan=NoGC
+    - name: Bootstrap test +MMTk(MarkSweep)
+      run: make -C ruby btest RUN_OPTS=--mmtk-plan=MarkSweep
