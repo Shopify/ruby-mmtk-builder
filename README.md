@@ -3,7 +3,7 @@
 This repository provides builds of the [Ruby](https://www.ruby-lang.org/)
 programming language, with [MMTk](https://www.mmtk.io/) as a garbage collector.
 To download a build, find a recent nightly release at
-https://github.com/chrisseaton/ruby-mmtk-builder/releases/tag/nightly
+https://github.com/Shopify/ruby-mmtk-builder/releases/tag/nightly
 and download either the debug or release artefact.
 
 Use `ruby --mmtk` to enable. See `ruby --help` for more information.
