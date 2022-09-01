@@ -22,3 +22,7 @@ jobs:
       run: make -C ruby btest RUN_OPTS=--mmtk-plan=NoGC
     - name: Bootstrap test +MMTk(MarkSweep)
       run: make -C ruby btest RUN_OPTS=--mmtk-plan=MarkSweep
+    - name: MMTk test +MMTk(NoGC)
+      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=NoGC"
+    - name: MMTk test +MMTk(MarkSweep)
+      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=MarkSweep"
