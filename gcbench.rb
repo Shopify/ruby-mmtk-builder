@@ -45,6 +45,9 @@
 #
 # Translated to Ruby by Noel Padavan and Chris Seaton
 
+# % git clone https://github.com/evanphx/benchmark-ips 
+# % ruby/build/bin/ruby --mmtk -I benchmark-ips/lib gcbench.rb
+
 require "benchmark/ips"
 
 class Node
@@ -96,10 +99,7 @@ def make_tree(i_depth)
   end
 end
 
-def print_diagnostics
-  pp GC.stat
-end
-
+# Construct two trees, one top-down the other bottom-up
 def time_construction(depth)
   root = nil
   temp_tree = nil
@@ -117,18 +117,23 @@ def time_construction(depth)
   end
 end
 
+# Stretch the memory space quickly
 temp_tree = make_tree(STRETCH_TREE_DEPTH)
 temp_tree = nil
 
+# Create a long lived object
 long_lived_tree = Node.new
 populate LONG_LIVED_TREE_DEPTH, long_lived_tree
 
-array = Array.new(ARRAY_SIZE)
+# Create long-lived array, filling half of it
+long_lived_array = Array.new(ARRAY_SIZE)
 
 (ARRAY_SIZE / 2).times do |i|
   i += 1
-  array[i] = 1.0 / i
+  long_lived_array[i] = 1.0 / i
 end
+
+puts RUBY_DESCRIPTION
 
 Benchmark.ips do |x|
   x.warmup = 10
@@ -136,7 +141,7 @@ Benchmark.ips do |x|
 
   x.report do
     MIN_TREE_DEPTH.step(MAX_TREE_DEPTH, 2) do |d|
-      time_construction MAX_TREE_DEPTH
+      time_construction d
     end
   end
 end
