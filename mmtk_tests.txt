@@ -42,8 +42,8 @@ test/ruby/test_float.rb
 test/ruby/test_fnmatch.rb
 test/ruby/test_frozen_error.rb
 test/ruby/test_frozen.rb
-# test/ruby/test_gc_compact.rb              XXXX query
-# test/ruby/test_gc.rb                      XXXX query
+# test/ruby/test_gc_compact.rb              XXXX hard crash
+# test/ruby/test_gc.rb                      XXXX failures
 test/ruby/test_hash.rb
 test/ruby/test_ifunless.rb
 test/ruby/test_inlinecache.rb
@@ -69,15 +69,15 @@ test/ruby/test_metaclass.rb
 test/ruby/test_method_cache.rb
 # test/ruby/test_method.rb                    XXXX failure
 test/ruby/test_mixed_unicode_escapes.rb
-# test/ruby/test_mjit_debug.rb                XXXX query
-# test/ruby/test_mjit.rb                      XXXX query
+test/ruby/test_mjit_debug.rb
+test/ruby/test_mjit.rb
 test/ruby/test_module.rb
 test/ruby/test_name_error.rb
 test/ruby/test_nomethod_error.rb
 test/ruby/test_not.rb
 test/ruby/test_numeric.rb
 test/ruby/test_object.rb
-# test/ruby/test_objectspace.rb             XXXX query
+# test/ruby/test_objectspace.rb             XXXX failures
 # test/ruby/test_optimization.rb            XXXXX hard crash
 test/ruby/test_pack.rb
 test/ruby/test_parse.rb
@@ -125,8 +125,8 @@ test/ruby/test_undef.rb
 test/ruby/test_unicode_escape.rb
 test/ruby/test_variable.rb
 test/ruby/test_vm_dump.rb
-# test/ruby/test_weakmap.rb             XXXXX query
+# test/ruby/test_weakmap.rb             XXXXX failures
 test/ruby/test_whileuntil.rb
 test/ruby/test_yield.rb
-# test/ruby/test_yjit_exit_locations.rb   XXXXX query
-# test/ruby/test_yjit.rb                  XXXXX query
+test/ruby/test_yjit_exit_locations.rb
+test/ruby/test_yjit.rb
