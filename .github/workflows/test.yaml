@@ -27,4 +27,4 @@ jobs:
     - name: MMTk test +MMTk(MarkSweep)
       run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=MarkSweep"
     - name: Test +MMTk(MarkSweep)
-      run: make -C ruby test-all TESTS=$(cat mmtk_tests.txt | ruby -e 'puts ARGF.map(&:strip).reject { |line| line.start_with?("#") }.join(" ")') RUN_OPTS="--mmtk-plan=MarkSweep"
+      run: make -C ruby test-all TESTS=$(cat mmtk_tests.txt | ruby -e 'puts ARGF.map(&:strip).reject { |line| line.start_with?("#") }.join(" ")') RUN_OPTS="--mmtk-plan=MarkSweep" TESTOPTS=-v
