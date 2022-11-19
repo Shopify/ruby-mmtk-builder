@@ -1,12 +1,12 @@
 name: Test
 on:
   push:
-    branches: [ main ]
+    branches: [ main, tests ]
   pull_request:
   schedule:
     - cron:  '0 0 * * *' # Every day at midnight
   workflow_dispatch:
-    branches: [ main ]
+    branches: [ main, tests ]
 
 jobs:
 
@@ -23,6 +23,8 @@ jobs:
     - name: Bootstrap test +MMTk(MarkSweep)
       run: make -C ruby btest RUN_OPTS=--mmtk-plan=MarkSweep
     - name: MMTk test +MMTk(NoGC)
-      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=NoGC"
+      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=NoGC" TESTOPTS=-v
     - name: MMTk test +MMTk(MarkSweep)
-      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=MarkSweep"
+      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=MarkSweep" TESTOPTS=-v
+    - name: Test +MMTk(MarkSweep)
+      run: make -C ruby test-all TESTS=$(cat mmtk_tests.txt | ruby -e 'puts ARGF.map(&:strip).reject { |line| line.start_with?("#") }.join(" ")') RUN_OPTS="--mmtk-plan=MarkSweep" TESTOPTS=-v
