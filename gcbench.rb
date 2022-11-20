@@ -45,10 +45,12 @@
 #
 # Translated to Ruby by Noel Padavan and Chris Seaton
 
-# % git clone https://github.com/evanphx/benchmark-ips 
+# % ruby/build/bin/gem install benchmark-ips
+# % ruby/build/bin/gem install RubyInline
 # % ruby/build/bin/ruby --mmtk -I benchmark-ips/lib gcbench.rb
+# % ruby/build/bin/ruby --mmtk -I benchmark-ips/lib gcbench.rb --cext
 
-require "benchmark/ips"
+require 'benchmark/ips'
 
 class Node
   attr_accessor :left, :right, :i, :j
@@ -79,9 +81,7 @@ end
 
 # Build tree top down, assigning to older objects.
 def populate(i_depth, this_node)
-  if i_depth <= 0
-    nil
-  else
+  if i_depth > 0
     i_depth -= 1
     this_node.left = Node.new
     this_node.right = Node.new
@@ -101,7 +101,7 @@ end
 
 # Construct two trees, one top-down the other bottom-up
 def time_construction(depth)
-  root = nil
+  # root = nil     what's the point of this?
   temp_tree = nil
   inum_iters = num_iters(depth)
 
@@ -133,7 +133,104 @@ long_lived_array = Array.new(ARRAY_SIZE)
   long_lived_array[i] = 1.0 / i
 end
 
+use_cext = ARGV.delete('--cext')
+raise unless ARGV.empty?
+
 puts RUBY_DESCRIPTION
+
+if use_cext
+  require 'inline'
+
+  module CExt
+    inline do |builder|
+      builder.prefix <<~C
+        #define STRETCH_TREE_DEPTH #{STRETCH_TREE_DEPTH}
+
+        static ID id_left;
+        static ID id_right;
+        static ID id_i;
+        static ID id_j;
+        static VALUE cNode;
+        static VALUE zero;
+
+        static int tree_size(int i) {
+          return (1 << (i + 1)) - 1;
+        }
+
+        static int num_iters(int i) {
+          return 2 * tree_size(STRETCH_TREE_DEPTH) / tree_size(i);
+        }
+
+        static VALUE new_node(VALUE left, VALUE right) {
+          VALUE node = rb_obj_alloc(cNode);
+          rb_ivar_set(node, id_left, left);
+          rb_ivar_set(node, id_right, right);
+          rb_ivar_set(node, id_i, zero);
+          rb_ivar_set(node, id_j, zero);
+          return node;
+        }
+
+        static void populate(int i_depth, VALUE this_node) {
+          if (i_depth > 0) {
+            i_depth -= 1;
+            VALUE left = new_node(Qnil, Qnil);
+            VALUE right = new_node(Qnil, Qnil);
+            rb_ivar_set(this_node, id_left, left);
+            rb_ivar_set(this_node, id_right, right);
+            populate(i_depth, left);
+            populate(i_depth, right);
+          }
+        }
+
+        static VALUE make_tree(int i_depth) {
+          if (i_depth <= 0) {
+            return new_node(Qnil, Qnil);
+          } else {
+            return new_node(make_tree(i_depth - 1), make_tree(i_depth - 1));
+          }
+        }
+      C
+
+      builder.c <<~C
+        void setup_cext(void) {
+          id_left = rb_intern("@left");
+          id_right = rb_intern("@right");
+          id_i = rb_intern("@i");
+          id_j = rb_intern("@j");
+          cNode = rb_const_get(rb_cObject, rb_intern("Node"));
+          zero = INT2FIX(0);
+        }
+      C
+
+      builder.c <<~C
+        void time_construction(int depth) {
+          // VALUE root = Qnil;   what's the point of this?
+          VALUE temp_tree = Qnil;
+          int inum_iters = num_iters(depth);
+
+          for (int i = 0; i < inum_iters; i++) {
+            temp_tree = new_node(Qnil, Qnil);
+            populate(depth, temp_tree);
+            temp_tree = Qnil;
+          }
+
+          for (int i = 0; i < inum_iters; i++) {
+            temp_tree = make_tree(depth);
+            temp_tree = Qnil;
+          }
+        }
+      C
+    end
+  end
+
+  puts 'Using C extension'
+
+  class Object
+    prepend CExt
+  end
+
+  setup_cext
+end
 
 Benchmark.ips do |x|
   x.warmup = 10
@@ -145,3 +242,5 @@ Benchmark.ips do |x|
     end
   end
 end
+
+pp GC.stat
