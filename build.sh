@@ -51,7 +51,7 @@ then
 else
   CONFIGURE_FLAGS=
 fi
-./configure --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build $CONFIGURE_FLAGS
+./configure --disable-install-doc --with-mmtk-ruby=../mmtk-ruby --prefix=$PWD/build $CONFIGURE_FLAGS
 make
 make install
 popd
