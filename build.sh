@@ -4,9 +4,12 @@ set -euxo pipefail
 
 build_root=$(pwd)
 mmtk_core_location=$build_root/mmtk-core
+mmtk_ruby_location=$build_root/mmtk-ruby
 
+enable_debug=${WITH_DEBUG:-0}
 default_rust_toolchain=${RUSTUP_TOOLCHAIN:-stable}
 mmtk_core_use_latest=${WITH_LATEST_MMTK_CORE:-0}
+mmtk_core_use_local=1
 
 function install_rust {
     [[ $# -lt 1 ]] && exit 1
@@ -33,25 +36,40 @@ function setup_mmtk_core {
     fi
 }
 
+function setup_mmtk_ruby {
+    [[ $# -lt 1 ]] && exit
+
+    git clone https://github.com/mmtk/mmtk-ruby $1
+}
+
+function build_mmtk_ruby {
+    [[ $# -lt 3 ]] && exit 1
+
+    pushd $1/mmtk
+
+    if [[ $2 -gt 0 ]]; then
+        sed -i 's/^git =/#git =/g' Cargo.toml
+        sed -i 's/^#path =/path =/g' Cargo.toml
+    fi
+
+    if [[ $3 -gt 0 ]]; then
+        cargo build
+    else
+        cargo build --release
+    fi
+    popd
+}
+
 install_rust $default_rust_toolchain
 
 [[ ! -d $mmtk_core_location ]] &&
     setup_mmtk_core $mmtk_core_location $mmtk_core_use_latest
+[[ ! -d $mmtk_ruby_location ]] &&
+    setup_mmtk_ruby $mmtk_ruby_location
+
+build_mmtk_ruby $mmtk_ruby_location $mmtk_core_use_local $enable_debug
 
 
-git clone https://github.com/mmtk/mmtk-ruby
-pushd mmtk-ruby/mmtk
-
-sed -i 's/^git =/#git =/g' Cargo.toml
-sed -i 's/^#path =/path =/g' Cargo.toml
-
-if [ -v WITH_DEBUG ]
-then
-  cargo build
-else
-  cargo build --release
-fi
-popd
 
 git clone https://github.com/mmtk/ruby
 pushd ruby
