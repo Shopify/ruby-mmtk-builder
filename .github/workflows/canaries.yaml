@@ -14,7 +14,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Build
-      run: WITH_LATEST_MMTK_CORE=true ./build.sh
+      run: WITH_LATEST_MMTK_CORE=1 ./build.sh
 
   with_upstream_ruby:
     name: Build with with upstream Ruby
@@ -23,4 +23,4 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Build
-      run: WITH_UPSTREAM_RUBY=true ./build.sh
+      run: WITH_UPSTREAM_RUBY=1 ./build.sh
