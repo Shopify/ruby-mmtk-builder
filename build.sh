@@ -2,7 +2,11 @@
 
 set -euxo pipefail
 
+build_root=$(pwd)
+mmtk_core_location=$build_root/mmtk-core
+
 default_rust_toolchain=${RUSTUP_TOOLCHAIN:-stable}
+mmtk_core_use_latest=${WITH_LATEST_MMTK_CORE:-0}
 
 function install_rust {
     [[ $# -lt 1 ]] && exit 1
@@ -14,18 +18,26 @@ function install_rust {
     rustup toolchain install $1
 }
 
+function setup_mmtk_core {
+    [[ $# -lt 2 ]] && exit 1
+
+    git clone https://github.com/mmtk/mmtk-core $1
+
+    if [[ $2 -gt 0 ]]; then
+        pushd $1
+        # TODO: Find out what the status of this branch is
+        git remote add wks https://github.com/wks/mmtk-core &&
+            git fetch wks &&
+            git checkout wks/ruby-friendly-tracing
+        popd
+    fi
+}
+
 install_rust $default_rust_toolchain
 
-WITH_LATEST_MMTK_CORE=yes # always using latest at the moment
+[[ ! -d $mmtk_core_location ]] &&
+    setup_mmtk_core $mmtk_core_location $mmtk_core_use_latest
 
-git clone https://github.com/mmtk/mmtk-core
-pushd mmtk-core
-if [ ! -v WITH_LATEST_MMTK_CORE ]
-then
-  git remote add wks https://github.com/wks/mmtk-core
-  git checkout wks/ruby-friendly-tracing
-fi
-popd
 
 git clone https://github.com/mmtk/mmtk-ruby
 pushd mmtk-ruby/mmtk

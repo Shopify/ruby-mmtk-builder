@@ -30,7 +30,7 @@ Within this directory.
 
 The following environment variables can be used
 
-`WITH_LATEST_MMTK_CORE=yes` to use latest MMTk (may not work.)
+`WITH_LATEST_MMTK_CORE=1` to use latest MMTk (may not work.)
 
 `WITH_UPSTREAM_RUBY=yes` to merge with upstream Ruby (may not work.)
 
