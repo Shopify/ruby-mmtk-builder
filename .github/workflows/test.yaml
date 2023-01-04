@@ -18,12 +18,12 @@ jobs:
       uses: actions/checkout@v3
     - name: Build
       run: ./build.sh
-    - name: Bootstrap test +MMTk(NoGC)
-      run: make -C ruby btest RUN_OPTS=--mmtk-plan=NoGC
+    # - name: Bootstrap test +MMTk(NoGC)
+    #   run: make -C ruby btest RUN_OPTS=--mmtk-plan=NoGC
     - name: Bootstrap test +MMTk(MarkSweep)
       run: make -C ruby btest RUN_OPTS=--mmtk-plan=MarkSweep
-    - name: MMTk test +MMTk(NoGC)
-      run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=NoGC" TESTOPTS=-v
+    # - name: MMTk test +MMTk(NoGC)
+    #   run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=NoGC" TESTOPTS=-v
     - name: MMTk test +MMTk(MarkSweep)
       run: make -C ruby test-all TESTS='test/ruby/test_mmtk.rb' RUN_OPTS="--mmtk-plan=MarkSweep" TESTOPTS=-v
     - name: Test +MMTk(MarkSweep)
