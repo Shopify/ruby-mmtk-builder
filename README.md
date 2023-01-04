@@ -32,9 +32,9 @@ The following environment variables can be used
 
 `WITH_LATEST_MMTK_CORE=1` to use latest MMTk (may not work.)
 
-`WITH_UPSTREAM_RUBY=yes` to merge with upstream Ruby (may not work.)
+`WITH_UPSTREAM_RUBY=1` to merge with upstream Ruby (may not work.)
 
-`WITH_DEBUG=yes` to build a debug version.
+`WITH_DEBUG=1` to build a debug version.
 
 ## Building a Ruby release
 
