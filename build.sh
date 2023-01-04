@@ -21,8 +21,10 @@ rustup toolchain install $RUSTUP_TOOLCHAIN
 
 git clone https://github.com/mmtk/mmtk-ruby
 pushd mmtk-ruby/mmtk
-sed -i 's/^mmtk =/#mmtk =/g' Cargo.toml
-cat ../../Cargo.toml.part >> Cargo.toml
+
+sed -i 's/^git =/#git =/g' Cargo.toml
+sed -i 's/^#path =/path =/g' Cargo.toml
+
 if [ -v WITH_DEBUG ]
 then
   cargo build

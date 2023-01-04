@@ -1,3 +1,0 @@
-
-# Use mmtk-core from the sibling repository
-mmtk = { path = "../../mmtk-core", features = ["is_mmtk_object"] }
