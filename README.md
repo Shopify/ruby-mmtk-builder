@@ -11,7 +11,24 @@ Use `ruby --mmtk` to enable. See `ruby --help` for more information.
 ## Use as a development environment
 
 `./build.sh` will set up a working full-source checkout and build of Ruby with
-MMTk.
+MMTk. MMTk is Linux only.
+
+### MacOS local development
+
+A Containerfile is included that will run `build.sh` and create an
+image with the resulting Ruby build.
+
+Make sure you have installed `podman` and then run
+
+```
+podman build .
+```
+
+Within this directory.
+
+## Valid Build options
+
+The following environment variables can be used
 
 `WITH_LATEST_MMTK_CORE=yes` to use latest MMTk (may not work.)
 
@@ -19,4 +36,6 @@ MMTk.
 
 `WITH_DEBUG=yes` to build a debug version.
 
-`TAG=mytag ./package.sh` then builds a tarball.
+## Building a Ruby release
+
+First build using `./build.sh`. Then `TAG=mytag ./package.sh` to build a tarball.
