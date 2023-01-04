@@ -26,7 +26,7 @@ function install_rust {
 function setup_mmtk_core {
     [[ $# -lt 2 ]] && exit 1
 
-    git clone https://github.com/mmtk/mmtk-core $1
+    git clone --depth=1 https://github.com/mmtk/mmtk-core $1
 
     if [[ $2 -gt 0 ]]; then
         pushd $1
@@ -41,7 +41,7 @@ function setup_mmtk_core {
 function setup_mmtk_ruby {
     [[ $# -lt 1 ]] && exit
 
-    git clone https://github.com/mmtk/mmtk-ruby $1
+    git clone --depth=1 https://github.com/mmtk/mmtk-ruby $1
 }
 
 function build_mmtk_ruby {
@@ -65,7 +65,7 @@ function build_mmtk_ruby {
 function setup_ruby {
     [[ $# -lt 2 ]] && exit 1
 
-    git clone https://github.com/mmtk/ruby $1
+    git clone --depth=1 https://github.com/mmtk/ruby $1
 
     pushd $1
     if [[ $2 -gt 0 ]]; then
