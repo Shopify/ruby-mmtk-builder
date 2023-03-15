@@ -69,8 +69,6 @@ test/ruby/test_metaclass.rb
 test/ruby/test_method_cache.rb
 # test/ruby/test_method.rb                    XXXX failure
 test/ruby/test_mixed_unicode_escapes.rb
-test/ruby/test_mjit_debug.rb
-test/ruby/test_mjit.rb
 test/ruby/test_module.rb
 test/ruby/test_name_error.rb
 test/ruby/test_nomethod_error.rb
