@@ -1,0 +1,14 @@
+GEM
+  remote: https://www.rubygems.org/
+  specs:
+    rake (13.2.1)
+
+PLATFORMS
+  arm64-darwin-23
+  ruby
+
+DEPENDENCIES
+  rake
+
+BUNDLED WITH
+   2.5.3
