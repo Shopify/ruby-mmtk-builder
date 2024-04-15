@@ -74,7 +74,11 @@ function build_mmtk_ruby {
 function setup_ruby {
     [[ $# -lt 2 ]] && exit 1
 
-    git clone --depth=1 https://github.com/mmtk/ruby $1
+    if [[ -d $1 ]]; then
+       pushd $1 && git pull
+    else
+        git clone --depth=1 https://github.com/mmtk/ruby $1
+    fi
 
     pushd $1
     if [[ $2 -gt 0 ]]; then
