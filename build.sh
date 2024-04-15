@@ -112,7 +112,8 @@ function build_ruby {
 }
 
 
-install_rust $default_rust_toolchain
+[[ ! `command -v rustc` ]] &&
+    install_rust $default_rust_toolchain
 
 [[ ! -d $mmtk_core_location ]] &&
     setup_mmtk_core $mmtk_core_location $mmtk_core_use_latest
