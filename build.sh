@@ -124,4 +124,5 @@ build_mmtk_ruby $mmtk_ruby_location $mmtk_core_use_local $enable_debug
 setup_ruby $ruby_src_location $ruby_merge_upstream
 build_ruby $ruby_src_location $mmtk_ruby_location $enable_debug
 
-ruby/build/bin/ruby --mmtk -v
+cd $build_root
+./ruby/build/bin/ruby --mmtk -v
