@@ -94,7 +94,8 @@ function setup_ruby {
 function build_ruby {
     [[ $# -lt 3 ]] && exit 1
 
-    sudo apt-get install -y autoconf bison libyaml-dev
+    [[ 1 -ne $is_darwin ]] &&
+        sudo apt-get install -y autoconf bison libyaml-dev
     pushd $1
 
     ./autogen.sh
