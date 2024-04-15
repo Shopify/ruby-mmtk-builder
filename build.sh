@@ -13,6 +13,10 @@ ruby_merge_upstream=${WITH_UPSTREAM_RUBY:-0}
 mmtk_core_use_latest=${WITH_LATEST_MMTK_CORE:-0}
 mmtk_core_use_local=1
 
+is_darwin=0
+[[ "Darwin" = `uname` ]] &&
+    is_darwin=1
+
 function install_rust {
     [[ $# -lt 1 ]] && exit 1
 
@@ -50,8 +54,13 @@ function build_mmtk_ruby {
     pushd $1/mmtk
 
     if [[ $2 -gt 0 ]]; then
-        sed -i 's/^git =/#git =/g' Cargo.toml
-        sed -i 's/^#path =/path =/g' Cargo.toml
+        backup_ext=""
+        [[ 1 -eq $is_darwin ]] &&
+           backup_ext="\'\'"
+
+        sed -i $backup_ext 's/^git =/#git =/g' Cargo.toml
+        sed -i $backup_ext 's/^rev =/#rev =/g' Cargo.toml
+        sed -i $backup_ext 's/^#path =/path =/g' Cargo.toml
     fi
 
     if [[ $3 -gt 0 ]]; then
