@@ -34,7 +34,7 @@ jobs:
     - name: Build
       run: WITH_DEBUG=1 ./build.sh
     - name: Download tag
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v4.1.7
       with:
         name: tag
     - name: Package
@@ -55,7 +55,7 @@ jobs:
     - name: Build
       run: ./build.sh
     - name: Download tag
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v4.1.7
       with:
         name: tag
     - name: Package
@@ -74,7 +74,7 @@ jobs:
       contents: write
     steps:
     - name: Download builds
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
     - name: Release
       uses: ncipollo/release-action@v1
       with:
